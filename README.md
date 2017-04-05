@@ -6,9 +6,10 @@ No doubt the authentication interface in Shangahitech is stupid and annoying. As
 
 ## To-do list
 
-* Add support for daemon.
+* Add support for heartbeat.
 * Add support for configure file.
 * Add support for command line arguments.
+* Add support for daemon.
 * Complete specification.
 
 ## Specification
