@@ -2,7 +2,7 @@
 
 ## Introduction
 
-No doubt the authentication interface in Shangahitech is stupid and annoying. As geeks, we surely wish to save time and eyeballs. The project of [*WifiLoginer*](../../../WifiLoginer) is a good try, which take advantage of python's high scalability. This project aims at implementing a Rust version with less runtime cost.
+No doubt the authentication interface in Shangahitech is stupid and annoying. As geeks, we surely wish to save time and eyeballs. The project of [*WifiLoginer*](../../../WifiLoginer) is a good try, which takes advantage of python's high scalability. This project aims at implementing a Rust version with less runtime cost.
 
 ## To-do list
 
