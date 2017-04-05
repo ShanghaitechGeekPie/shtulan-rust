@@ -1,0 +1,10 @@
+[package]
+name = "shtulan"
+version = "0.1.0"
+authors = ["dingtj <dingtj@shanghaitech.edu.cn>"]
+
+[dependencies]
+hyper = "*"
+hyper-native-tls = "*"
+url = "*"
+rustc-serialize = "*"
