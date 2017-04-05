@@ -62,7 +62,7 @@ impl<'a> Auth<'a>{
             match response.read_to_end(&mut buf){
                 Ok(_) => {
                     if let Ok(text) = from_utf8(buf.as_slice()){
-                        match parse_result(text) {
+                        match Self::parse_result(text) {
                             Ok(ip) => {
                                 println!("Login successfully. Your ip is {}", ip);
                             }
@@ -79,6 +79,27 @@ impl<'a> Auth<'a>{
         } else {
             println!("Bad status: {:?}", response.status);
         }
+    }
+
+    fn parse_result(response: &str) -> Result<String, LoginError> {
+        use rustc_serialize::json::Json;
+        if let Ok(root) = Json::from_str(response) {
+            if let Some(obj_root) = root.as_object() {
+                if let Some(success) = obj_root.get("success") {
+                    if success.as_boolean().unwrap_or(false) {
+                        if let Some(data) = obj_root.get("data") {
+                            if let Some(obj_data) = data.as_object() {
+                                if let Some(ip) = obj_data.get("ip") {
+                                    return Ok(ip.as_string().unwrap_or("0.0.0.0").to_string());
+                                }
+                            }
+                        }
+                    }
+
+                }
+            }
+        }
+        return Err(LoginError::ParseError);
     }
 
     pub fn login(&self) {
@@ -99,25 +120,4 @@ impl<'a> Auth<'a>{
 enum LoginError {
     ParseError,
     Msg(String),
-}
-
-fn parse_result(response: &str) -> Result<String, LoginError> {
-    use rustc_serialize::json::Json;
-    if let Ok(root) = Json::from_str(response) {
-        if let Some(obj_root) = root.as_object() {
-            if let Some(success) = obj_root.get("success") {
-                if success.as_boolean().unwrap_or(false) {
-                    if let Some(data) = obj_root.get("data") {
-                        if let Some(obj_data) = data.as_object() {
-                            if let Some(ip) = obj_data.get("ip") {
-                                return Ok(ip.as_string().unwrap_or("0.0.0.0").to_string());
-                            }
-                        }
-                    }
-                }
-
-            }
-        }
-    }
-    return Err(LoginError::ParseError);
 }
